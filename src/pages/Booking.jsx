@@ -1,44 +1,73 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-function Booking() {
-  const [bookings, setBooking] = useState([]);
+function PropertyCard({ property }) {
+  // Read directly on mount — no useEffect or cascading renders
+  const [isFavorite, setIsFavorite] = useState(() => {
+    try {
+      const savedFavorites = JSON.parse(localStorage.getItem("travelnest_favs") || "[]");
+      return savedFavorites.includes(property.id);
+    } catch {
+      return false;
+    }
+  });
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("travelnest_bookings") || "[]");
-    setBooking(data);
-  }, []);
+  const toggleFavorite = (e) => {
+    e.preventDefault();
+    try {
+      const savedFavorites = JSON.parse(localStorage.getItem("travelnest_favs") || "[]");
+      let updated;
+      if (savedFavorites.includes(property.id)) {
+        updated = savedFavorites.filter((id) => id !== property.id);
+        setIsFavorite(false);
+      } else {
+        updated = [...savedFavorites, property.id];
+        setIsFavorite(true);
+      }
+      localStorage.setItem("travelnest_favs", JSON.stringify(updated));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
-    <div style={{ marginTop: "24px" }}>
-      <h2>Your Booking</h2>
-      {bookings.length === 0 ? (
-        <p style={{ marginTop: "12px", color: "var(--muted)" }}>No active bookings found.</p>
-      ) : (
-        <div style={{ display: "grid", gap: "16px", marginTop: "20px" }}>
-          {bookings.map((b) => (
-            <div
-              key={b.id}
-              style={{
-                background: "var(--white)",
-                padding: "20px",
-                borderRadius: "12px",
-                border: "1px solid var(--border)",
-              }}
-            >
-              <h3>{b.propertyTitle}</h3>
-              <p style={{ color: "var(--muted)" }}>
-                Dates: {b.checkIn} to {b.checkOut} ({b.nights} nights)
-              </p>
-              <p>
-                <strong>Total Paid:</strong> ${b.price}
-              </p>
-              <small style={{ color: "var(--muted)" }}>Booked on: {b.bookedAt}</small>
-            </div>
-          ))}
+    <div className="property-card">
+      <div className="property-image-container">
+        <img
+          src={property.image || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6"}
+          alt={property.title}
+          className="property-image"
+          onError={(e) => {
+            e.target.src = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6";
+          }}
+        />
+        <button
+          onClick={toggleFavorite}
+          className="favorite-btn"
+          aria-label="Save to favorites"
+        >
+          {isFavorite ? "❤️" : "🤍"}
+        </button>
+      </div>
+
+      <div className="property-info">
+        <div className="property-header">
+          <h3 className="property-title">{property.title}</h3>
+          <span className="property-rating">★ {property.rating}</span>
         </div>
-      )}
+        <p className="property-location">{property.location || property.city}</p>
+
+        <div className="property-price-box">
+          <div className="property-price">
+            ${property.price} <span>/ night</span>
+          </div>
+          <Link to={`/property/${property.id}`} className="view-btn">
+            View Details
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Booking;
+export default PropertyCard;

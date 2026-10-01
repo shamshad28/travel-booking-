@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import properties from "../data/properties";
 import PropertiesList from "../components/PropertiesList";
 
 function Favorites() {
-  const [savedProperties, setSavedProperties] = useState([]);
-
-  useEffect(() => {
-    const favIds = JSON.parse(localStorage.getItem("travelnest_favs") || "[]");
-    const matched = properties.filter((p) => favIds.includes(p.id));
-    setSavedProperties(matched);
-  }, []);
+  // Read and compute the initial state synchronously before the first render
+  const [savedProperties] = useState(() => {
+    try {
+      const favIds = JSON.parse(localStorage.getItem("travelnest_favs") || "[]");
+      return properties.filter((p) => favIds.includes(p.id));
+    } catch {
+      return [];
+    }
+  });
 
   return (
     <div style={{ marginTop: "24px" }}>

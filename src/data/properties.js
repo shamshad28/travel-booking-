@@ -1,0 +1,48 @@
+const properties = [
+  {
+    id: 1,
+    title: "Luxury Beachfront Villa",
+    location: "Malibu, California",
+    city: "Malibu",
+    price: 350,
+    rating: 4.9,
+    guests: 6,
+    image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=800&q=80",
+    description: "Enjoy panoramic ocean views, private beach access, and modern luxury finishes in this stunning villa.",
+  },
+  {
+    id: 2,
+    title: "Cozy Mountain Cabin",
+    location: "Aspen, Colorado",
+    city: "Aspen",
+    price: 180,
+    rating: 4.7,
+    guests: 4,
+    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+    description: "Nestled among pine trees with a private hot tub, stone fireplace, and scenic hiking trails right outside.",
+  },
+  {
+    id: 3,
+    title: "Downtown Modern Loft",
+    location: "New York, New York",
+    city: "New York",
+    price: 220,
+    rating: 4.8,
+    guests: 2,
+    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+    description: "High ceilings, industrial chic aesthetic, and steps away from the city's best cafes and transit stations.",
+  },
+  {
+    id: 4,
+    title: "Sunlit Countryside Cottage",
+    location: "Cotswolds, UK",
+    city: "Cotswolds",
+    price: 140,
+    rating: 4.6,
+    guests: 3,
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+    description: "Idyllic rural retreat featuring exposed stone walls, an English garden, and peaceful village surroundings.",
+  },
+];
+
+export default properties;
